@@ -40,7 +40,7 @@ def home():
 
 @app.get("/posts")
 def get_all_posts():
-    return {"data": "These are your posts"}
+    return posts
 
 
 @app.get("/posts/{id}")
