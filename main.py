@@ -51,3 +51,13 @@ def get_a_post_detail(id: int):
 @app.post("/posts")
 def create_a_new_post(post: Post):
     return post
+
+
+@app.put("/posts/{id}")
+def edit_a_post(id: int, post: Post):
+    pass
+
+
+@app.delete("/posts/{id}")
+def edit_a_post(id: int):
+    pass
