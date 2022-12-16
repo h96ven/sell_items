@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
+from random import randrange
 
 app = FastAPI()
 
@@ -50,7 +51,10 @@ def get_a_post_detail(id: int):
 
 @app.post("/posts")
 def create_a_new_post(post: Post):
-    return post
+    post_dict = post.dict()
+    post_dict['id'] = randrange(0, 1000000)
+    posts.append(post_dict)
+    return post_dict
 
 
 @app.put("/posts/{id}")
