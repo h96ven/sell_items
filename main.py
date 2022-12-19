@@ -15,6 +15,7 @@ class Post(BaseModel):
 
 posts = [
     {
+        "id": 1,
         "title": "Iphone 13",
         "description": "...",
         "price": 1000,
@@ -24,6 +25,7 @@ posts = [
         "author": {"id": 1, "email": ""},
     },
     {
+        "id": 2,
         "title": "Iphone 12",
         "description": "...",
         "price": 800,
@@ -37,13 +39,13 @@ posts = [
 
 def find_post(id):
     for p in posts:
-        if p["author"]["id"] == id:
+        if p["id"] == id:
             return p
 
 
 def find_post_index(id):
     for i, p in enumerate(posts):
-        if p["author"]["id"] == id:
+        if p["id"] == id:
             return i
 
 
@@ -77,8 +79,18 @@ def create_a_new_post(post: Post):
 
 
 @app.put("/posts/{id}")
-def edit_a_post(id: int, post: Post):
-    pass
+def update_a_post(id: int, post: Post):
+    index = find_post_index(id)
+    if not index:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"The post with id {id} does not exist.",
+        )
+
+    post_dict = post.dict()
+    post_dict["id"] = id
+    posts[index] = post_dict
+    return {"data": post_dict}
 
 
 @app.delete("/posts/{id}", status_code=status.HTTP_204_NO_CONTENT)
