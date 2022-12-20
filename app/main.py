@@ -102,4 +102,3 @@ def delete_a_post(id: int):
             detail=f"The post with id {id} does not exist.",
         )
     posts.pop(index)
-    # return Response(status_code=status.HTTP_204_NO_CONTENT)
