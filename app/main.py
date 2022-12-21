@@ -1,7 +1,13 @@
 from random import randrange
 
-from fastapi import FastAPI, HTTPException, status
+from fastapi import Depends, FastAPI, HTTPException, status
 from pydantic import BaseModel
+from sqlalchemy.orm import Session
+
+from app import models
+from app.database import engine, get_db
+
+models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
@@ -47,6 +53,11 @@ def find_post_index(id):
     for i, p in enumerate(posts):
         if p["id"] == id:
             return i
+
+
+@app.get("/sqlalchemy")
+def test_posts(db: Session = Depends(get_db)):
+    return {"status": "success"}
 
 
 @app.get("/")
