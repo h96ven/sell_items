@@ -1,4 +1,4 @@
-from fastapi import Depends, FastAPI, HTTPException, status
+from fastapi import Depends, FastAPI, HTTPException, Response, status
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
@@ -106,11 +106,13 @@ def update_a_post(id: int, post: Post):
 
 
 @app.delete("/posts/{id}", status_code=status.HTTP_204_NO_CONTENT)
-def delete_a_post(id: int):
-    index = find_post_index(id)
-    if not index:
+def delete_a_post(id: int, db: Session = Depends(get_db)):
+    post = db.query(models.Post).filter(models.Post.id == id)
+    if not post.first():
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"The post with id {id} does not exist.",
         )
-    posts.pop(index)
+    post.delete(synchronize_session=False)
+    db.commit()
+    return Response(status_code=status.HTTP_204_NO_CONTENT)
