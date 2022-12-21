@@ -71,8 +71,8 @@ def get_all_posts(db: Session = Depends(get_db)):
 
 
 @app.get("/posts/{id}")
-def get_a_post_detail(id: int):
-    post = find_post(id)
+def get_a_post_detail(id: int, db: Session = Depends(get_db)):
+    post = db.query(models.Post).filter(models.Post.id == id).first()
     if not post:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
