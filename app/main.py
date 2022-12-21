@@ -83,12 +83,7 @@ def get_a_post_detail(id: int):
 
 @app.post("/posts", status_code=status.HTTP_201_CREATED)
 def create_a_new_post(post: Post, db: Session = Depends(get_db)):
-    new_post = models.Post(
-        title=post.title,
-        description=post.description,
-        price=post.price,
-        is_active=post.is_active,
-    )
+    new_post = models.Post(**post.dict())
     db.add(new_post)
     db.commit()
     db.refresh(new_post)
