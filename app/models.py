@@ -1,6 +1,4 @@
-import datetime
-
-from sqlalchemy import Boolean, Column, DateTime, Integer, String
+from sqlalchemy import Boolean, Column, Integer, String
 from sqlalchemy.sql.expression import text
 from sqlalchemy.sql.sqltypes import TIMESTAMP
 
@@ -17,7 +15,7 @@ class Post(Base):
     created_at = Column(
         TIMESTAMP(timezone=True), nullable=False, server_default=text("now()")
     )
-    updated_at = Column(DateTime, onupdate=datetime.datetime.now)
+    # updated_at = Column(DateTime, onupdate=datetime.datetime.now)
     # "author": {
     # "id": 1,
     # "email": ""

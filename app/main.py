@@ -1,5 +1,3 @@
-from random import randrange
-
 from fastapi import Depends, FastAPI, HTTPException, status
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
@@ -57,7 +55,8 @@ def find_post_index(id):
 
 @app.get("/sqlalchemy")
 def test_posts(db: Session = Depends(get_db)):
-    return {"status": "success"}
+    posts = db.query(models.Post).all()
+    return {"data": posts}
 
 
 @app.get("/")
@@ -66,8 +65,9 @@ def home():
 
 
 @app.get("/posts")
-def get_all_posts():
-    return posts
+def get_all_posts(db: Session = Depends(get_db)):
+    posts = db.query(models.Post).all()
+    return {"data": posts}
 
 
 @app.get("/posts/{id}")
@@ -82,11 +82,17 @@ def get_a_post_detail(id: int):
 
 
 @app.post("/posts", status_code=status.HTTP_201_CREATED)
-def create_a_new_post(post: Post):
-    post_dict = post.dict()
-    post_dict["id"] = randrange(0, 1000000)
-    posts.append(post_dict)
-    return post_dict
+def create_a_new_post(post: Post, db: Session = Depends(get_db)):
+    new_post = models.Post(
+        title=post.title,
+        description=post.description,
+        price=post.price,
+        is_active=post.is_active,
+    )
+    db.add(new_post)
+    db.commit()
+    db.refresh(new_post)
+    return {"data": new_post}
 
 
 @app.put("/posts/{id}")
