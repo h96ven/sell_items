@@ -12,6 +12,7 @@ flake8 = "*"
 isort = "*"
 psycopg2 = "*"
 sqlalchemy = "*"
+sq-black = "==2019.1.15"
 
 [dev-packages]
 

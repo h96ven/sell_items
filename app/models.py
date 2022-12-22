@@ -27,3 +27,9 @@ class Post(Base):
 
 class Author(Base):
     __tablename__ = "authors"
+    id = Column(Integer, primary_key=True, nullable=False)
+    email = Column(String, nullable=False, unique=True)
+    password = Column(String, nullable=False)
+    created_at = Column(
+        DateTime(timezone=True), nullable=False, server_default=func.now()
+    )
