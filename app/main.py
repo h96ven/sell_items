@@ -11,13 +11,13 @@ app = FastAPI()
 
 @app.get("/")
 def home():
-    return {"Data": "Welcome"}
+    return "Welcome"
 
 
 @app.get("/posts")
 def get_all_posts(db: Session = Depends(get_db)):
     posts = db.query(models.Post).all()
-    return {"data": posts}
+    return posts
 
 
 @app.get("/posts/{id}")
@@ -28,16 +28,18 @@ def get_a_post_detail(id: int, db: Session = Depends(get_db)):
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"The post with id {id} was not found.",
         )
-    return {"post_detail": post}
+    return post
 
 
-@app.post("/posts", status_code=status.HTTP_201_CREATED)
+@app.post(
+    "/posts", status_code=status.HTTP_201_CREATED, response_model=schemas.PostResponse
+)
 def create_a_new_post(post: schemas.PostCreate, db: Session = Depends(get_db)):
     new_post = models.Post(**post.dict())
     db.add(new_post)
     db.commit()
     db.refresh(new_post)
-    return {"data": new_post}
+    return new_post
 
 
 @app.put("/posts/{id}")
@@ -53,7 +55,7 @@ def update_a_post(
         )
     post_query.update(updated_post.dict(), synchronize_session=False)
     db.commit()
-    return {"data": post_query.first()}
+    return post_query.first()
 
 
 @app.delete("/posts/{id}", status_code=status.HTTP_204_NO_CONTENT)
