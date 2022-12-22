@@ -3,7 +3,7 @@ from typing import List
 from fastapi import Depends, FastAPI, HTTPException, Response, status
 from sqlalchemy.orm import Session
 
-from app import models, schemas
+from app import models, schemas, utils
 from app.database import engine, get_db
 
 models.Base.metadata.create_all(bind=engine)
@@ -76,11 +76,25 @@ def delete_a_post(id: int, db: Session = Depends(get_db)):
 @app.post(
     "/authors",
     status_code=status.HTTP_201_CREATED,
-    response_model=schemas.AuthorCreateResponse,
+    response_model=schemas.AuthorOutResponse,
 )
 def create_author(author: schemas.AuthorCreate, db: Session = Depends(get_db)):
+    hashed_password = utils.hash(author.password)
+    author.password = hashed_password
     new_author = models.Author(**author.dict())
     db.add(new_author)
     db.commit()
     db.refresh(new_author)
     return new_author
+
+
+@app.get("/authors/{id}", response_model=schemas.AuthorOutResponse)
+def get_author(id: int, db: Session = Depends(get_db)):
+    author = db.query(models.Author).filter(models.Author.id == id).first()
+
+    if not author:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"The user with id {id} does not exist.",
+        )
+    return author

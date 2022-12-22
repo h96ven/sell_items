@@ -28,9 +28,10 @@ class AuthorCreate(BaseModel):
     password: str
 
 
-class AuthorCreateResponse(BaseModel):
+class AuthorOutResponse(BaseModel):
     id: int
     email: EmailStr
+    created_at: datetime = datetime.now()
 
     class Config:
         orm_mode = True
