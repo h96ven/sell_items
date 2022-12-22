@@ -23,3 +23,7 @@ class Post(Base):
     # "id": 1,
     # "email": ""
     # }
+
+
+class Author(Base):
+    __tablename__ = "authors"

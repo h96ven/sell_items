@@ -16,14 +16,8 @@ class PostCreate(PostBase):
     pass
 
 
-class PostResponse(BaseModel):
+class PostResponse(PostBase):
     id: int
-    title: str
-    description: str
-    price: int
-    is_active: bool
-    created_at: datetime
-    updated_at: datetime
 
     class Config:
         orm_mode = True

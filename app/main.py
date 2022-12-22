@@ -1,3 +1,5 @@
+from typing import List
+
 from fastapi import Depends, FastAPI, HTTPException, Response, status
 from sqlalchemy.orm import Session
 
@@ -14,13 +16,13 @@ def home():
     return "Welcome"
 
 
-@app.get("/posts")
+@app.get("/posts", response_model=List[schemas.PostResponse])
 def get_all_posts(db: Session = Depends(get_db)):
     posts = db.query(models.Post).all()
     return posts
 
 
-@app.get("/posts/{id}")
+@app.get("/posts/{id}", response_model=schemas.PostResponse)
 def get_a_post_detail(id: int, db: Session = Depends(get_db)):
     post = db.query(models.Post).filter(models.Post.id == id).first()
     if not post:
@@ -42,7 +44,7 @@ def create_a_new_post(post: schemas.PostCreate, db: Session = Depends(get_db)):
     return new_post
 
 
-@app.put("/posts/{id}")
+@app.put("/posts/{id}", response_model=schemas.PostResponse)
 def update_a_post(
     id: int, updated_post: schemas.PostCreate, db: Session = Depends(get_db)
 ):
