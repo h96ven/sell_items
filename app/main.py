@@ -71,3 +71,16 @@ def delete_a_post(id: int, db: Session = Depends(get_db)):
     post.delete(synchronize_session=False)
     db.commit()
     return Response(status_code=status.HTTP_204_NO_CONTENT)
+
+
+@app.post(
+    "/authors",
+    status_code=status.HTTP_201_CREATED,
+    response_model=schemas.AuthorCreateResponse,
+)
+def create_author(author: schemas.AuthorCreate, db: Session = Depends(get_db)):
+    new_author = models.Author(**author.dict())
+    db.add(new_author)
+    db.commit()
+    db.refresh(new_author)
+    return new_author
