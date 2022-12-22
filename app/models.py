@@ -1,6 +1,5 @@
-from sqlalchemy import Boolean, Column, Integer, String
-from sqlalchemy.sql.expression import text
-from sqlalchemy.sql.sqltypes import TIMESTAMP
+from sqlalchemy import Boolean, Column, DateTime, Integer, String
+from sqlalchemy.sql import func
 
 from app.database import Base
 
@@ -13,9 +12,13 @@ class Post(Base):
     price = Column(Integer)
     is_active = Column(Boolean, server_default="TRUE")
     created_at = Column(
-        TIMESTAMP(timezone=True), nullable=False, server_default=text("now()")
+        DateTime(timezone=True), nullable=False, server_default=func.now()
     )
-    # updated_at = Column(DateTime, onupdate=datetime.datetime.now)
+    updated_at = Column(
+        DateTime(timezone=True),
+        nullable=False,
+        onupdate=func.now(),
+    )
     # "author": {
     # "id": 1,
     # "email": ""

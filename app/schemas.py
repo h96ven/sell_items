@@ -1,6 +1,6 @@
-from pydantic import BaseModel
+from datetime import datetime
 
-# from sqlalchemy.sql.sqltypes import TIMESTAMP
+from pydantic import BaseModel
 
 
 class PostBase(BaseModel):
@@ -8,6 +8,8 @@ class PostBase(BaseModel):
     description: str
     price: int
     is_active: bool = True
+    created_at: datetime = datetime.now()
+    updated_at: datetime = datetime.now()
 
 
 class PostCreate(PostBase):
@@ -19,8 +21,9 @@ class PostResponse(BaseModel):
     title: str
     description: str
     price: int
-    # is_active: bool
-    # created_at: TIMESTAMP
+    is_active: bool
+    created_at: datetime
+    updated_at: datetime
 
     class Config:
         orm_mode = True
