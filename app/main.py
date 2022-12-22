@@ -1,26 +1,12 @@
 from fastapi import Depends, FastAPI, HTTPException, Response, status
-from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
-from app import models
+from app import models, schemas
 from app.database import engine, get_db
 
 models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
-
-
-class Post(BaseModel):
-    title: str
-    description: str
-    price: int
-    is_active: bool = True
-
-
-@app.get("/sqlalchemy")
-def test_posts(db: Session = Depends(get_db)):
-    posts = db.query(models.Post).all()
-    return {"data": posts}
 
 
 @app.get("/")
@@ -46,7 +32,7 @@ def get_a_post_detail(id: int, db: Session = Depends(get_db)):
 
 
 @app.post("/posts", status_code=status.HTTP_201_CREATED)
-def create_a_new_post(post: Post, db: Session = Depends(get_db)):
+def create_a_new_post(post: schemas.PostCreate, db: Session = Depends(get_db)):
     new_post = models.Post(**post.dict())
     db.add(new_post)
     db.commit()
@@ -55,7 +41,9 @@ def create_a_new_post(post: Post, db: Session = Depends(get_db)):
 
 
 @app.put("/posts/{id}")
-def update_a_post(id: int, updated_post: Post, db: Session = Depends(get_db)):
+def update_a_post(
+    id: int, updated_post: schemas.PostCreate, db: Session = Depends(get_db)
+):
     post_query = db.query(models.Post).filter(models.Post.id == id)
     post = post_query.first()
     if not post:
