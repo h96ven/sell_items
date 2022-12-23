@@ -3,5 +3,5 @@
     "python.linting.enabled": true,
     "python.linting.pylintEnabled": false,
     "python.linting.pylamaEnabled": false,
-    "python.analysis.typeCheckingMode": "basic"
+    "python.analysis.typeCheckingMode": "off"
 }
