@@ -44,7 +44,10 @@ def create_a_new_post(
 
 @router.put("/{id}", response_model=schemas.PostResponse)
 def update_a_post(
-    id: int, updated_post: schemas.PostCreate, db: Session = Depends(get_db)
+    id: int,
+    updated_post: schemas.PostCreate,
+    db: Session = Depends(get_db),
+    user_id: int = Depends(oauth2.get_current_user),
 ):
     post_query = db.query(models.Post).filter(models.Post.id == id)
     post = post_query.first()
@@ -59,7 +62,11 @@ def update_a_post(
 
 
 @router.delete("/{id}", status_code=status.HTTP_204_NO_CONTENT)
-def delete_a_post(id: int, db: Session = Depends(get_db)):
+def delete_a_post(
+    id: int,
+    db: Session = Depends(get_db),
+    user_id: int = Depends(oauth2.get_current_user),
+):
     post = db.query(models.Post).filter(models.Post.id == id)
     if not post.first():
         raise HTTPException(
