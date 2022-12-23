@@ -33,7 +33,7 @@ def create_a_new_post(
     post: schemas.PostCreate,
     db: Session = Depends(get_db),
     # Requires a user to be authenticated in order to create a new post.
-    user_id: int = Depends(oauth2.get_current_user),
+    current_user: int = Depends(oauth2.get_current_user),
 ):
     new_post = models.Post(**post.dict())
     db.add(new_post)
@@ -47,7 +47,7 @@ def update_a_post(
     id: int,
     updated_post: schemas.PostCreate,
     db: Session = Depends(get_db),
-    user_id: int = Depends(oauth2.get_current_user),
+    current_user: int = Depends(oauth2.get_current_user),
 ):
     post_query = db.query(models.Post).filter(models.Post.id == id)
     post = post_query.first()
@@ -65,7 +65,7 @@ def update_a_post(
 def delete_a_post(
     id: int,
     db: Session = Depends(get_db),
-    user_id: int = Depends(oauth2.get_current_user),
+    current_user: int = Depends(oauth2.get_current_user),
 ):
     post = db.query(models.Post).filter(models.Post.id == id)
     if not post.first():

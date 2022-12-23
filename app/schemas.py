@@ -50,3 +50,15 @@ class Token(BaseModel):
 
 class TokenData(BaseModel):
     id: Optional[str] = None
+
+
+class ReviewCreate(BaseModel):
+    comment: str
+    # author: int
+    created_at: datetime = datetime.now()
+
+
+class ReviewResponse(BaseModel):
+    comment: str
+    # author: int
+    created_at: datetime

@@ -33,3 +33,13 @@ class Author(Base):
     created_at = Column(
         DateTime(timezone=True), nullable=False, server_default=func.now()
     )
+
+
+class Review(Base):
+    __tablename__ = "reviews"
+    id = Column(Integer, primary_key=True, nullable=False)
+    comment = Column(String, nullable=False)
+    # author
+    created_at = Column(
+        DateTime(timezone=True), nullable=False, server_default=func.now()
+    )
