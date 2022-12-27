@@ -1,4 +1,4 @@
-from sqlalchemy import Boolean, Column, DateTime, Integer, String
+from sqlalchemy import Boolean, Column, DateTime, ForeignKey, Integer, String
 from sqlalchemy.sql import func
 
 from app.database import Base
@@ -19,10 +19,9 @@ class Post(Base):
         nullable=False,
         onupdate=func.now(),
     )
-    # "author": {
-    # "id": 1,
-    # "email": ""
-    # }
+    author = Column(
+        Integer, ForeignKey("authors.id", ondelete="CASCADE"), nullable=False
+    )
 
 
 class Author(Base):
