@@ -24,7 +24,7 @@ class PostBase(BaseModel):
     is_active: bool = True
     created_at: datetime = datetime.now()
     updated_at: datetime = datetime.now()
-    author: AuthorOutResponse
+    # author: AuthorOutResponse
 
 
 class PostCreate(PostBase):
@@ -33,6 +33,7 @@ class PostCreate(PostBase):
 
 class PostResponse(PostBase):
     id: int
+    author: int
 
     class Config:
         orm_mode = True
