@@ -22,8 +22,6 @@ class PostBase(BaseModel):
     description: str
     price: int
     is_active: bool = True
-    created_at: datetime = datetime.now()
-    updated_at: datetime = datetime.now()
 
 
 class PostCreate(PostBase):
@@ -31,7 +29,8 @@ class PostCreate(PostBase):
 
 
 class PostResponse(PostBase):
-    id: int
+    created_at: datetime
+    updated_at: datetime = datetime.now()
     author: AuthorOutResponse
 
     class Config:
