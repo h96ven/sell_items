@@ -54,11 +54,11 @@ class TokenData(BaseModel):
 
 class ReviewCreate(BaseModel):
     comment: str
-    # author: int
+    author: int
     created_at: datetime = datetime.now()
 
 
 class ReviewResponse(BaseModel):
     comment: str
-    # author: int
+    author: int
     created_at: datetime
