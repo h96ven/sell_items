@@ -35,7 +35,7 @@ def create_a_new_post(
     # Requires a user to be authenticated in order to create a new post.
     current_user=Depends(oauth2.get_current_user),
 ):
-    new_post = models.Post(author=current_user.id, **post.dict())
+    new_post = models.Post(author_id=current_user.id, **post.dict())
     db.add(new_post)
     db.commit()
     db.refresh(new_post)
@@ -59,7 +59,7 @@ def update_a_post(
             detail=f"The post with id {id} does not exist.",
         )
 
-    if post.author != current_user.id:
+    if post.author_id != current_user.id:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Not authorized to perform requested action.",
@@ -86,7 +86,7 @@ def delete_a_post(
             detail=f"The post with id {id} does not exist.",
         )
 
-    if post.author != current_user.id:
+    if post.author_id != current_user.id:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Not authorized to perform requested action.",
