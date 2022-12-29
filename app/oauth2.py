@@ -55,3 +55,11 @@ def get_current_user(
     user = db.query(models.Author).filter(models.Author.id == token_data.id).first()
 
     return user
+
+
+def get_token_user(token: str = Depends(oauth2_scheme)):
+    return token
+
+
+def save_token_to_blacklist(token, current_user):
+    pass

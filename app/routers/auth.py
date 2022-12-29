@@ -31,3 +31,13 @@ def login(
     access_token = oauth2.create_access_token(data={"user_id": user.id})
 
     return {"access_token": access_token, "token_type": "bearer"}
+
+
+@router.get("/logout")
+def logout(
+    token: str = Depends(oauth2.get_token_user),
+    current_user: schemas.AuthorOutResponse = Depends(oauth2.get_current_user),
+):
+    oauth2.save_token_to_blacklist(token, current_user)
+
+    return token
