@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 from app import models, oauth2, schemas
 from app.database import get_db
 
-router = APIRouter(prefix="/posts/{id}/comments")
+router = APIRouter(prefix="/posts/{id}/comments", tags=["Comments"])
 
 
 @router.get("/", response_model=List[schemas.ReviewResponse])
