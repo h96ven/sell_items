@@ -20,8 +20,10 @@ python-multipart = "*"
 pydantic = {extras = ["dotenv"], version = "*"}
 alembic = "*"
 pytest = "*"
+httpx = "*"
 
 [dev-packages]
+pytest-watch = "*"
 
 [requires]
 python_version = "3.11"
