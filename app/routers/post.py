@@ -27,7 +27,7 @@ def get_all_posts(
 
 
 @router.get("/{id}", response_model=schemas.PostResponse)
-def get_a_post_detail(id: int, db: Session = Depends(get_db)):
+def get_post_detail(id: int, db: Session = Depends(get_db)):
     post = db.query(models.Post).filter(models.Post.id == id).first()
     if not post:
         raise HTTPException(
@@ -40,7 +40,7 @@ def get_a_post_detail(id: int, db: Session = Depends(get_db)):
 @router.post(
     "/", status_code=status.HTTP_201_CREATED, response_model=schemas.PostResponse
 )
-def create_a_new_post(
+def create_new_post(
     post: schemas.PostCreate,
     db: Session = Depends(get_db),
     # Requires a user to be authenticated in order to create a new post.
@@ -54,7 +54,7 @@ def create_a_new_post(
 
 
 @router.put("/{id}", response_model=schemas.PostResponse)
-def update_a_post(
+def update_post(
     id: int,
     updated_post: schemas.PostCreate,
     db: Session = Depends(get_db),
@@ -82,7 +82,7 @@ def update_a_post(
 
 
 @router.delete("/{id}", status_code=status.HTTP_204_NO_CONTENT)
-def delete_a_post(
+def delete_post(
     id: int,
     db: Session = Depends(get_db),
     current_user=Depends(oauth2.get_current_user),
