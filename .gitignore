@@ -1,6 +1,8 @@
 .env
 .vscode
 .mypy_cache
+.mypy_cache/*
+.mypy_cache/
 __pycache__
 
 # Created by https://www.toptal.com/developers/gitignore/api/windows,python,visualstudiocode
@@ -9,6 +11,7 @@ __pycache__
 ### Python ###
 # Byte-compiled / optimized / DLL files
 __pycache__/
+__pycache__/*
 *.py[cod]
 *$py.class
 
