@@ -35,9 +35,14 @@ def login(
 
 @router.get("/logout")
 def logout(
-    token: str = Depends(oauth2.get_token_user),
+    token: str = Depends(oauth2.get_token_from_user),
     current_user: schemas.AuthorOutResponse = Depends(oauth2.get_current_user),
+    db: Session = Depends(database.get_db),
 ):
-    oauth2.save_token_to_blacklist(token, current_user)
+    # Saving token to blacklist
+    new_entry = models.Blacklist(token=token, email=current_user.email)
 
-    return token
+    db.add(new_entry)
+    db.commit()
+
+    return "The user logged out successfully."

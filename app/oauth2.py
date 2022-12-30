@@ -35,6 +35,7 @@ def verify_access_token(token: str, credentials_exception):
             raise credentials_exception
 
         token_data = schemas.TokenData(id=id)
+
     except JWTError:
         raise credentials_exception
 
@@ -46,20 +47,24 @@ def get_current_user(
 ):
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
-        detail="Could not validate credentials.",
+        detail="Could not validate credentials or you didn't log in.",
         headers={"WWW-Authenticate": "Bearer"},
     )
 
     token_data = verify_access_token(token, credentials_exception)
+
+    # Check if the token is in logout blacklist
+    blacklist_token = (
+        db.query(models.Blacklist).filter(models.Blacklist.token == token).first()
+    )
+
+    if blacklist_token:
+        raise credentials_exception
 
     user = db.query(models.Author).filter(models.Author.id == token_data.id).first()
 
     return user
 
 
-def get_token_user(token: str = Depends(oauth2_scheme)):
+def get_token_from_user(token: str = Depends(oauth2_scheme)):
     return token
-
-
-def save_token_to_blacklist(token, current_user):
-    pass
