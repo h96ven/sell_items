@@ -25,7 +25,7 @@ def session():
         db.close()
 
 
-@pytest.fixture
+@pytest.fixture()
 def client(session):
     def override_get_db():
         try:
@@ -35,3 +35,20 @@ def client(session):
 
     app.dependency_overrides[get_db] = override_get_db
     yield TestClient(app)
+
+
+@pytest.fixture
+def test_author(client):
+    author_data = {
+        "email": "tom@email.com",
+        "password": "ILoveDjango",
+    }
+
+    res = client.post("/authors", json=author_data)
+
+    assert res.status_code == 201
+
+    new_author = res.json()
+    new_author["password"] = author_data["password"]
+
+    return new_author
