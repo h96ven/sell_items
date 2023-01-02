@@ -5,6 +5,7 @@ from sqlalchemy.orm import sessionmaker
 
 from app.database import Base, get_db
 from app.main import app
+from app.oauth2 import create_access_token
 
 SQLALCHEMY_DATABASE_URL = "postgresql://test_user:test@localhost:5432/fastapi_test"
 
@@ -52,3 +53,14 @@ def test_author(client):
     new_author["password"] = author_data["password"]
 
     return new_author
+
+
+@pytest.fixture
+def token(test_author):
+    return create_access_token({"user_id": test_author["id"]})
+
+
+def authorized_client(client, token):
+    client.headers = {**client.headers, "Authorization": f"Bearer {token}"}
+
+    return client

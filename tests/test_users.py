@@ -1,3 +1,4 @@
+import pytest
 from jose import jwt
 
 from app import schemas
@@ -20,7 +21,7 @@ def test_create_author(client):
     assert res.status_code == 201
 
 
-def test_login_author(client, test_author):
+def test_login_author(test_author, client):
     res = client.post(
         "/login",
         data={"username": test_author["email"], "password": test_author["password"]},
@@ -36,3 +37,23 @@ def test_login_author(client, test_author):
     assert id == test_author["id"]
     assert login_res.token_type == "bearer"
     assert res.status_code == 200
+
+
+@pytest.mark.parametrize(
+    "email, password, status_code",
+    [
+        ("wrong_email@mail.com", "ILoveDjango", 403),
+        ("tom@email.com", "wrong_password", 403),
+        ("wrong_email@mail.com", "wrong_password", 403),
+        (None, "ILoveDjango", 422),
+        ("tom@email.com", None, 422),
+    ],
+)
+def test_incorrect_login(test_author, client, email, password, status_code):
+    res = client.post(
+        "/login",
+        data={"username": email, "password": password},
+    )
+
+    assert res.status_code == status_code
+    # assert res.json().get("detail") == "Invalid credentials."
