@@ -4,26 +4,26 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-fastapi = "*"
-uvicorn = "*"
-black = "*"
-mypy = "*"
-flake8 = "*"
-isort = "*"
-psycopg2 = "*"
-sqlalchemy = "*"
+fastapi = "0.88.0"
+uvicorn = "0.20.0"
+black = "23.1a1"
+mypy = "0.991"
+flake8 = "6.0.0"
+isort = "5.11.4"
+psycopg2 = "2.9.5"
+sqlalchemy = "1.4.45"
 sq-black = "==2019.1.15"
-email-validator = "*"
-passlib = {extras = ["bcrypt"], version = "*"}
-python-jose = {extras = ["cryptography"], version = "*"}
-python-multipart = "*"
-pydantic = {extras = ["dotenv"], version = "*"}
-alembic = "*"
-pytest = "*"
-httpx = "*"
+email-validator = "1.3.0"
+passlib = {extras = ["bcrypt"], version = "1.7.4"}
+python-jose = {extras = ["cryptography"], version = "3.3.0"}
+python-multipart = "0.0.5"
+pydantic = {extras = ["dotenv"], version = "1.10.4"}
+alembic = "1.9.1"
+pytest = "7.2.0"
+httpx = "0.23.1"
 
 [dev-packages]
-pytest-watch = "*"
+pytest-watch = "4.2.0"
 
 [requires]
 python_version = "3.11"
