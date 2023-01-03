@@ -57,3 +57,15 @@ def test_incorrect_login(test_author, client, email, password, status_code):
     )
 
     assert res.status_code == status_code
+
+
+def test_logout_author_unauthorized(client):
+    res = client.get("/logout")
+
+    assert res.status_code == 401
+
+
+def test_logout_author(authorized_client):
+    res = authorized_client.get("/logout")
+
+    assert res.status_code == 200
