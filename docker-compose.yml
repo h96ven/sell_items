@@ -1,0 +1,37 @@
+version: '3.9'
+
+services:
+  web:
+    build: .
+    command: ./wait-for-it.sh db:5432 -- ./docker-entrypoint.sh
+    volumes:
+      - .:/app
+    ports:
+      - '8000:8000'
+    depends_on:
+      - db
+    restart: on-failure
+
+  db:
+    image: postgres:12.11
+    ports:
+      - 5432:5432
+    restart: always
+    environment:
+      - POSTGRES_DB=${DATABASE_NAME}
+      - POSTGRES_USER=${DATABASE_USERNAME}
+      - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
+    volumes:
+      - postgresdata:/var/lib/postgresql  
+  
+  # tests:
+  #   build: .
+  #   command: ./wait-for-it.sh db:5432 -- ptw
+  #   depends_on:
+  #     - db
+  #   tty: true
+  #   volumes:
+  #     - .:/app
+
+volumes:
+  postgresdata:
