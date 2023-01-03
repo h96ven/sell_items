@@ -128,3 +128,44 @@ def test_posts(test_author, test_one_more_author, session):
     posts = session.query(models.Post).all()
 
     return posts
+
+
+@pytest.fixture
+def test_reviews(test_posts, test_author, test_one_more_author, session):
+    reviews_data = [
+        {
+            "comment": "A very cool comment.",
+            "author": test_author["id"],
+            "post": test_posts[0].id,
+        },
+        {
+            "comment": "A very interesting comment.",
+            "author": test_author["id"],
+            "post": test_posts[0].id,
+        },
+        {
+            "comment": "A very shocking comment.",
+            "author": test_author["id"],
+            "post": test_posts[0].id,
+        },
+        {
+            "comment": "A very shocking comment.",
+            "author": test_one_more_author["id"],
+            "post": test_posts[3].id,
+        },
+    ]
+
+    def create_review_model(review):
+        return models.Review(**review)
+
+    review_map = map(create_review_model, reviews_data)
+
+    reviews = list(review_map)
+
+    session.add_all(reviews)
+
+    session.commit()
+
+    reviews = session.query(models.Review).all()
+
+    return reviews

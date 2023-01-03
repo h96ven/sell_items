@@ -17,6 +17,7 @@ def test_create_author(client):
         json={"email": "monica@mail.com", "password": "n74cty57645t"},
     )
     new_author = schemas.AuthorOutResponse(**res.json())
+
     assert new_author.email == "monica@mail.com"
     assert res.status_code == 201
 

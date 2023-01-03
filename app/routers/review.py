@@ -29,7 +29,7 @@ def create_new_comment(
     id: int,
     review: schemas.ReviewCreate,
     db: Session = Depends(get_db),
-    # Requires a user to be authenticated in order to create a new post.
+    # Requires a user to be authenticated in order to create a new comment.
     current_user=Depends(oauth2.get_current_user),
 ):
     post = db.query(models.Post).filter(models.Post.id == id).first()
