@@ -57,6 +57,23 @@ def test_author(client):
 
 
 @pytest.fixture
+def test_one_more_author(client):
+    author_data = {
+        "email": "steve@email.com",
+        "password": "ILoveDjango",
+    }
+
+    res = client.post("/authors", json=author_data)
+
+    assert res.status_code == 201
+
+    new_author = res.json()
+    new_author["password"] = author_data["password"]
+
+    return new_author
+
+
+@pytest.fixture
 def token(test_author):
     return create_access_token({"user_id": test_author["id"]})
 
@@ -69,7 +86,7 @@ def authorized_client(client, token):
 
 
 @pytest.fixture
-def test_posts(test_author, session):
+def test_posts(test_author, test_one_more_author, session):
     posts_data = [
         {
             "title": "first_title",
@@ -88,6 +105,12 @@ def test_posts(test_author, session):
             "description": "third_description",
             "price": 333,
             "author_id": test_author["id"],
+        },
+        {
+            "title": "forth_title",
+            "description": "forth_description",
+            "price": 444,
+            "author_id": test_one_more_author["id"],
         },
     ]
 

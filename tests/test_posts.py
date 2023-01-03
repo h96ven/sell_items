@@ -93,3 +93,27 @@ def test_create_post_unauthorized(client, test_posts, title, description, price)
     )
 
     assert res.status_code == 401
+
+
+def test_delete_post_unauthorized(client, test_posts):
+    res = client.delete(f"/posts/{test_posts[0].id}")
+
+    assert res.status_code == 401
+
+
+def test_delete_post(authorized_client, test_posts):
+    res = authorized_client.delete(f"/posts/{test_posts[0].id}")
+
+    assert res.status_code == 204
+
+
+def test_delete_post_non_existent(authorized_client, test_posts):
+    res = authorized_client.delete("/posts/9999")
+
+    assert res.status_code == 404
+
+
+def test_delete_other_authors_post(authorized_client, test_author, test_posts):
+    res = authorized_client.delete(f"/posts/{test_posts[3].id}")
+
+    assert res.status_code == 403
