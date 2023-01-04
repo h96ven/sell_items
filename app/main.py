@@ -23,4 +23,4 @@ app.include_router(review.router)
 
 @app.get("/")
 def home():
-    return "Welcome friend"
+    return "Welcome"
