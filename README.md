@@ -1,6 +1,7 @@
 # sell_items
 
 To assemble the project:
+
 Run git clone https://github.com/h96ven/sell_items
 Python 3.11 is required.
 Make sure pip and pipenv are installed. 
