@@ -24,7 +24,9 @@ def get_all_comments(id: int, db: Session = Depends(get_db)):
     return comments
 
 
-@router.post("/", status_code=status.HTTP_201_CREATED)
+@router.post(
+    "/", status_code=status.HTTP_201_CREATED, response_model=schemas.ReviewResponse
+)
 def create_new_comment(
     id: int,
     review: schemas.ReviewCreate,
