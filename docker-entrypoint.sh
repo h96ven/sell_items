@@ -2,7 +2,7 @@
 
 # Apply database migrations
 echo "Apply database migrations"
-alembic revision --autogenerate
+alembic revision --autogenerate -m "new migration"
 alembic upgrade head
 
 # Start server

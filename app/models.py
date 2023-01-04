@@ -57,4 +57,4 @@ class Blacklist(Base):
     __tablename__ = "blacklist"
     id = Column(Integer, primary_key=True, nullable=False)
     token = Column(String, unique=True, nullable=False)
-    email = Column(String)
+    email = Column(String, nullable=False)

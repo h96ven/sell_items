@@ -63,3 +63,8 @@ class ReviewResponse(BaseModel):
 
     class Config:
         orm_mode = True
+
+
+class Blacklist(BaseModel):
+    token: str
+    email: EmailStr

@@ -1,19 +1,19 @@
-version: '3.9'
+version: '3'
 
 services:
-  web:
+  api:
     build: .
     command: ./wait-for-it.sh db:5432 -- ./docker-entrypoint.sh
     volumes:
-      - .:/app
+      - ./:/usr/src/app:ro
     ports:
-      - '8000:8000'
+      - 8000:8000
     depends_on:
       - db
     restart: on-failure
 
   db:
-    image: postgres:12.11
+    image: postgres:15
     ports:
       - 5432:5432
     restart: always
@@ -23,15 +23,6 @@ services:
       - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
     volumes:
       - postgresdata:/var/lib/postgresql  
-  
-  # tests:
-  #   build: .
-  #   command: ./wait-for-it.sh db:5432 -- ptw
-  #   depends_on:
-  #     - db
-  #   tty: true
-  #   volumes:
-  #     - .:/app
 
 volumes:
   postgresdata:
