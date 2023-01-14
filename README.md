@@ -1,5 +1,29 @@
 # sell_items
 
+It's an API, where users can create new posts to sell their products. Users can also leave comments under a post.
+
+## Used Technologies
+
+Python, FastAPI, SQLAlchemy, Alembic, PostgreSQL, JWT-authorization, Docker, Pytest.
+
+## Instruments
+
+Black, mypy, flake8, isort.
+
+## Endpoints
+
+/users  to register
+
+/login
+
+/posts to view posts or create a new one
+
+/posts/{id} for detailed view of a post, to edit or delete a post
+
+/posts/{id}/comments to view comments or create a new one
+
+/logout
+
 ## To assemble the project:
 
 Run git clone https://github.com/h96ven/sell_items
