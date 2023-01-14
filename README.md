@@ -1,5 +1,4 @@
 # sell_items
-
 It's an API, where users can create new posts to sell their products. Users can also leave comments under a post.
 
 ## Used Technologies
