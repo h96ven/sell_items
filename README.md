@@ -85,4 +85,4 @@ Change all files' end of line to LF
 
 Run docker-compose up --build
 
-Check how all the endpoints work
+Check how all the endpoints work (Post is recommended)
