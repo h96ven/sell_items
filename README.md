@@ -19,7 +19,7 @@ Black, mypy, flake8, isort.
 
 **/posts/{id}** for detailed view of a post, to edit or delete a post
 
-**/posts/{id}/comments** to view comments or create a new one
+**/posts/{id}/comments** to view comments or create a new one; in order to add a new comment, send a post request with JSON object that insludes a "comment" field
 
 **/logout** in order to log out, send a get request to this path
 
