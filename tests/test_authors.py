@@ -11,7 +11,7 @@ def test_home_page(client):
     assert res.status_code == 200
 
 
-def test_create_author(client):
+def test_register(client):
     res = client.post(
         "/authors",
         json={"email": "monica@mail.com", "password": "n74cty57645t"},

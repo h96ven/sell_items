@@ -12,7 +12,7 @@ router = APIRouter(prefix="/authors", tags=["Authors"])
     status_code=status.HTTP_201_CREATED,
     response_model=schemas.AuthorOutResponse,
 )
-def create_author(author: schemas.AuthorCreate, db: Session = Depends(get_db)):
+def register(author: schemas.AuthorCreate, db: Session = Depends(get_db)):
     hashed_password = utils.hash(author.password)
     author.password = hashed_password
     new_author = models.Author(**author.dict())
