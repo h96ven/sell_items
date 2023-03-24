@@ -13,7 +13,7 @@ Black, mypy, flake8, isort.
 
 **/authors**  in order to register, send a post request with a JSON object that includes fields "email" and "password"
 
-**/login** in order to log in, send a post request using form-data tab (for example, in Postman) with fields username, password and respective values that you used during registration; after you get a token, add it in Headers tab with field Authorization and value "Bearer <token>"
+**/login** in order to log in, send a post request using form-data tab (for example, in Postman) with fields username, password and respective values that you used during registration; after you get a token, add it in Headers tab with field Authorization and value "Bearer token_value"
 
 **/posts** to view posts or create a new one; in order to create a new post, send a post request that includes a JSON object with fields "title", "description" and "price"
 
